@@ -18,5 +18,12 @@ module RtC2207
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # タイムゾーン設定を日本にする
+    config.time_zone = "Asia/Tokyo"
+    config.active_record.default_timezone = :local
+
+    # Herokuのアセットパイプライン用
+    config.serve_static_assets = true
   end
 end
