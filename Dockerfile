@@ -1,0 +1,54 @@
+# 2022年7月時点の最新安定版のRuby
+FROM ruby:3.1.2
+
+# railsコンソール中で日本語入力するための設定
+ENV LANG C.UTF-8
+
+# bundlerのバージョンを固定するための設定
+ENV BUNDLER_VERSION 2.3.10
+
+# インストール可能なパッケージ一覧の更新
+RUN apt-get update -qq \
+    # パッケージのインストール（-yは全部yesにするオプション）
+    # コンパイラに必要なパッケージ、PostgreSQLのクライアント
+    # PostgreSQLの接続に必要なパッケージをインストール
+    # imagemagickはRialsチュートリアルで必要
+    # chromium-driverはRSpecのシステムスペック用に必要
+    # Bootstrapを利用する場合はnodejsとnpmとyarnが必要
+    && apt-get install build-essential \
+                       postgresql-client \
+                       libpq-dev \
+                       imagemagick \
+                       chromium-driver \
+                    -y nodejs \
+                       npm \
+    # キャッシュを削除して容量を小さくする
+    && rm -rf /var/lib/apt/lists/* \
+    # yarnをインストール
+    && npm install --global yarn
+
+# 作業ディレクトリの指定
+RUN mkdir /rt-c2207
+WORKDIR /rt-c2207
+
+# ローカルにあるGemfileとGemfile.lockを
+# コンテナ内のディレクトリにコピー
+COPY Gemfile /rt-c2207/Gemfile
+COPY Gemfile.lock /rt-c2207/Gemfile.lock
+
+# bundlerのバージョンを固定する
+RUN gem install bundler -v $BUNDLER_VERSION
+RUN bundle -v
+
+# bunlde installを実行する
+# （bundleコマンドはFROMで指定したRubyに含まれている）
+RUN bundle install
+COPY . /rt-c2207
+
+# コンテナ起動時に実行するスクリプト
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+EXPOSE 3000
+
+CMD ["rails", "server", "-b", "0.0.0.0"]
