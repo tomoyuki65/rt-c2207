@@ -2,25 +2,178 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  docker: circleci/docker@2.1.2
+  heroku: circleci/heroku@1.2.6
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+  # テスト用のジョブ
+  test:
+    # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
+    # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
+    machine:
+      image: ubuntu-2204:2022.04.1
+    # 仮想マシンを利用する場合、CircleCIの環境変数はDockerのコンテナ内へは直接読み込めない。
+    # そのまま代入もできないため、一度parametersを設定する。
+    parameters:
+      postgres_user:
+        type: string
+        default: $POSTGRES_USER
+      postgres_password:
+        type: string
+        default: $POSTGRES_PASSWORD
+      rails_master_key:
+        type: string
+        default: $RAILS_MASTER_KEY
+      tz:
+        type: string
+        default: $TZ
+    # 作業用のディレクトリを設定
+    working_directory: ~/test_rspec
+    # タスクを定義
     steps:
+      # リポジトリを作業用のディレクトリにpull
       - checkout
+      # docker-composeをインストール
+      - docker/install-docker-compose
+      # 処理を実行
+      # db.envは公開していないため、まずは空ファイルを作成する。
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: db.envの空ファイルを作成
+          command: touch db.env
+      # parametersに設定したCircleCIの環境変数をdb.envに書き込んでDockerコンテナ内で読み込む
+      - run:
+         name: db.envに環境変数POSTGRES_USERを設定
+         command: echo POSTGRES_USER=<< parameters.postgres_user >> >> db.env
+      - run:
+         name: db.envに環境変数POSTGRES_PASSWORDを設定
+         command: echo POSTGRES_PASSWORD=<< parameters.postgres_password >> >> db.env
+      - run:
+         name: db.envに環境変数にRAILS_MASTER_KEYを設定
+         command: echo RAILS_MASTER_KEY=<< parameters.rails_master_key >> >> db.env
+      - run:
+         name: db.envに環境変数にTZを設定
+         command: echo TZ=<< parameters.tz >> >> db.env
+      # docker composeで各種コマンドを順次実行する。
+      - run:
+         name: Dockerコンテナのビルドを実行
+         command: docker compose build --no-cache
+      - run:
+         name: yarn.lockからyarnを再インストール
+         command: docker compose run --rm web npm install yarn
+      - run:
+         name: Dockerコンテナの起動
+         command: docker compose up -d
+      # Dockerコンテナ起動後、すぐにDBを作成しようとするとエラーが発生する可能性があるため、少し待機する。
+      - run:
+          name: DB接続前の待機時間 10s
+          command: sleep 10
+      - run:
+          name: DBを作成
+          command: docker compose exec web rails db:create
+      - run:
+          name: マイグレーションを実行
+          command: docker compose exec web rails db:migrate
+      - run:
+          name: RSpecの実行
+          command: docker compose exec web bin/rspec
+      - run:
+          name: 起動中のDockerコンテナを停止して削除
+          command: docker compose down
+
+  # デプロイ用のジョブ
+  deploy:
+    # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
+    # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
+    machine:
+      image: ubuntu-2204:2022.04.1
+    # 仮想マシンを利用する場合、CircleCIの環境変数はDockerのコンテナ内へは直接読み込めない。
+    # そのまま代入もできないため、一度parametersを設定する。
+    parameters:
+      postgres_user:
+        type: string
+        default: $POSTGRES_USER
+      postgres_password:
+        type: string
+        default: $POSTGRES_PASSWORD
+      rails_master_key:
+        type: string
+        default: $RAILS_MASTER_KEY
+      tz:
+        type: string
+        default: $TZ
+      heroku_app_name:
+        type: string
+        default: $HEROKU_APP_NAME
+    # 作業用のディレクトリを設定
+    working_directory: ~/deploy_heroku
+    steps:
+      # リポジトリを作業用のディレクトリにpull
+      - checkout
+      # docker-composeをインストール
+      - docker/install-docker-compose
+      # Herokuコマンドのインストール
+      - heroku/install
+      # 処理を実行
+      # db.envは公開していないため、まずは空ファイルを作成する。
+      - run:
+          name: db.envの空ファイルを作成
+          command: touch db.env
+      # parametersに設定したCircleCIの環境変数をdb.envに書き込んでDockerコンテナ内で読み込む
+      - run:
+          name: db.envに環境変数POSTGRES_USERを設定
+          command: echo POSTGRES_USER=<< parameters.postgres_user >> >> db.env
+      - run:
+          name: db.envに環境変数POSTGRES_PASSWORDを設定
+          command: echo POSTGRES_PASSWORD=<< parameters.postgres_password >> >> db.env
+      - run:
+          name: db.envに環境変数RAILS_MASTER_KEYを設定
+          command: echo RAILS_MASTER_KEY=<< parameters.rails_master_key >> >> db.env
+      - run:
+          name: db.envに環境変数TZを設定
+          command: echo TZ=<< parameters.tz >> >> db.env
+      - run:
+         name: Dockerコンテナのビルドを実行
+         command: docker compose build --no-cache
+      - run:
+         name: yarn.lockからyarnを再インストール
+         command: docker compose run --rm web npm install yarn
+      # Herokuコマンドを順次実行し、デプロイを行う。
+      - run:
+          name: heroku container:login
+          command: heroku container:login
+      # HerokuのメンテナンスモードをON
+      - run:
+          name: heroku maintenance:on
+          command: heroku maintenance:on
+      - run:
+          name: heroku container:push web
+          command: heroku container:push web -a << parameters.heroku_app_name >>
+      - run:
+          name: heroku container:release web
+          command: heroku container:release web -a << parameters.heroku_app_name >>
+      - run:
+          name: heroku run rails db:migrate
+          command: heroku run rails db:migrate -a << parameters.heroku_app_name >>
+      # HerokuのメンテナンスモードをOFF
+      - run:
+          name: heroku maintenance:off
+          command: heroku maintenance:off
+      - run:
+          name: heroku maintenance
+          command: heroku maintenance
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  test-and-deploy-wf:
     jobs:
-      - say-hello
+      - test
+      - deploy
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
