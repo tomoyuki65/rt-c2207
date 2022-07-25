@@ -45,27 +45,27 @@ jobs:
           command: touch db.env
       # parametersに設定したCircleCIの環境変数をdb.envに書き込んでDockerコンテナ内で読み込む
       - run:
-         name: db.envに環境変数POSTGRES_USERを設定
-         command: echo POSTGRES_USER=<< parameters.postgres_user >> >> db.env
+          name: db.envに環境変数POSTGRES_USERを設定
+          command: echo POSTGRES_USER=<< parameters.postgres_user >> >> db.env
       - run:
-         name: db.envに環境変数POSTGRES_PASSWORDを設定
-         command: echo POSTGRES_PASSWORD=<< parameters.postgres_password >> >> db.env
+          name: db.envに環境変数POSTGRES_PASSWORDを設定
+          command: echo POSTGRES_PASSWORD=<< parameters.postgres_password >> >> db.env
       - run:
-         name: db.envに環境変数にRAILS_MASTER_KEYを設定
-         command: echo RAILS_MASTER_KEY=<< parameters.rails_master_key >> >> db.env
+          name: db.envに環境変数にRAILS_MASTER_KEYを設定
+          command: echo RAILS_MASTER_KEY=<< parameters.rails_master_key >> >> db.env
       - run:
-         name: db.envに環境変数にTZを設定
-         command: echo TZ=<< parameters.tz >> >> db.env
+          name: db.envに環境変数にTZを設定
+          command: echo TZ=<< parameters.tz >> >> db.env
       # docker composeで各種コマンドを順次実行する。
       - run:
-         name: Dockerコンテナのビルドを実行
-         command: docker compose build --no-cache
+          name: Dockerコンテナのビルドを実行
+          command: docker compose build --no-cache
       - run:
-         name: yarn.lockからyarnを再インストール
-         command: docker compose run --rm web npm install yarn
+          name: yarn.lockからyarnを再インストール
+          command: docker compose run --rm web npm install yarn
       - run:
-         name: Dockerコンテナの起動
-         command: docker compose up -d
+          name: Dockerコンテナの起動
+          command: docker compose up -d
       # Dockerコンテナ起動後、すぐにDBを作成しようとするとエラーが発生する可能性があるため、少し待機する。
       - run:
           name: DB接続前の待機時間 10s
@@ -135,11 +135,11 @@ jobs:
           name: db.envに環境変数TZを設定
           command: echo TZ=<< parameters.tz >> >> db.env
       - run:
-         name: Dockerコンテナのビルドを実行
-         command: docker compose build --no-cache
+          name: Dockerコンテナのビルドを実行
+          command: docker compose build --no-cache
       - run:
-         name: yarn.lockからyarnを再インストール
-         command: docker compose run --rm web npm install yarn
+          name: yarn.lockからyarnを再インストール
+          command: docker compose run --rm web npm install yarn
       # Herokuコマンドを順次実行し、デプロイを行う。
       - run:
           name: heroku container:login
@@ -170,7 +170,7 @@ jobs:
 workflows:
   test-and-deploy-wf:
     jobs:
-      - test:
+      - test
       - deploy:
           requires:
             - test
