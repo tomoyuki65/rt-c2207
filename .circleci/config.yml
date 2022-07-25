@@ -116,6 +116,10 @@ jobs:
       - docker/install-docker-compose
       # Herokuコマンドのインストール
       - heroku/install
+      # Herokuコマンドのアップデート
+      - run:
+          name: heroku update
+          command: heroku update
       # 処理を実行
       # db.envは公開していないため、まずは空ファイルを作成する。
       - run:
