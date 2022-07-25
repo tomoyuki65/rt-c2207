@@ -170,8 +170,8 @@ jobs:
 workflows:
   test-and-deploy-wf:
     jobs:
-      - test
-      - deploy
+      - test:
+      - deploy:
           requires:
             - test
           filters:
