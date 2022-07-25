@@ -2,10 +2,6 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-orbs:
-  docker: circleci/docker@2.1.2
-  heroku: circleci/heroku@1.2.6
-
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -14,7 +10,7 @@ jobs:
     # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
     # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
     machine:
-      image: ubuntu-2204:2022.04.1
+      image: ubuntu-2204:current
     # 仮想マシンを利用する場合、CircleCIの環境変数はDockerのコンテナ内へは直接読み込めない。
     # そのまま代入もできないため、一度parametersを設定する。
     parameters:
@@ -36,8 +32,6 @@ jobs:
     steps:
       # リポジトリを作業用のディレクトリにpull
       - checkout
-      # docker-composeをインストール
-      - docker/install-docker-compose
       # 処理を実行
       # db.envは公開していないため、まずは空ファイルを作成する。
       - run:
@@ -88,7 +82,7 @@ jobs:
     # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
     # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
     machine:
-      image: ubuntu-2204:2022.04.1
+      image: ubuntu-2204:current
     # 仮想マシンを利用する場合、CircleCIの環境変数はDockerのコンテナ内へは直接読み込めない。
     # そのまま代入もできないため、一度parametersを設定する。
     parameters:
@@ -112,10 +106,6 @@ jobs:
     steps:
       # リポジトリを作業用のディレクトリにpull
       - checkout
-      # docker-composeをインストール
-      - docker/install-docker-compose
-      # Herokuコマンドのインストール
-      - heroku/install
       # 処理を実行
       # db.envは公開していないため、まずは空ファイルを作成する。
       - run:
@@ -140,10 +130,15 @@ jobs:
       - run:
           name: yarn.lockからyarnを再インストール
           command: docker compose run --rm web npm install yarn
-      # Herokuコマンドを順次実行し、デプロイを行う。
+      # Herokuコマンドを順次実行
       - run:
           name: heroku container:login
           command: heroku container:login
+      # HerokunのメンテナンスモードON
+      - run:
+          name: heroku maintenance:on
+          command: heroku maintenance:on -a << parameters.heroku_app_name >>
+      # Herokuへのデプロイ処理
       - run:
           name: heroku container:push web
           command: heroku container:push web -a << parameters.heroku_app_name >>
@@ -153,6 +148,10 @@ jobs:
       - run:
           name: heroku run rails db:migrate
           command: heroku run rails db:migrate -a << parameters.heroku_app_name >>
+      # HerokuのメンテナンスモードOFF
+      - run:
+          name: heroku maintenance:off
+          command: heroku maintenance:off -a << parameters.heroku_app_name >>
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
