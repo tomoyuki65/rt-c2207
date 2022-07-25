@@ -116,10 +116,6 @@ jobs:
       - docker/install-docker-compose
       # Herokuコマンドのインストール
       - heroku/install
-      # Herokuコマンドのアップデート
-      - run:
-          name: heroku update
-          command: sudo apt update && sudo apt install heroku
       # 処理を実行
       # db.envは公開していないため、まずは空ファイルを作成する。
       - run:
@@ -148,10 +144,6 @@ jobs:
       - run:
           name: heroku container:login
           command: heroku container:login
-      # HerokuのメンテナンスモードをON
-      - run:
-          name: heroku maintenance:on
-          command: heroku maintenance:on
       - run:
           name: heroku container:push web
           command: heroku container:push web -a << parameters.heroku_app_name >>
@@ -161,13 +153,6 @@ jobs:
       - run:
           name: heroku run rails db:migrate
           command: heroku run rails db:migrate -a << parameters.heroku_app_name >>
-      # HerokuのメンテナンスモードをOFF
-      - run:
-          name: heroku maintenance:off
-          command: heroku maintenance:off
-      - run:
-          name: heroku maintenance
-          command: heroku maintenance
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
