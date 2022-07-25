@@ -119,7 +119,7 @@ jobs:
       # Herokuコマンドのアップデート
       - run:
           name: heroku update
-          command: heroku update
+          command: sudo apt update && sudo apt install heroku
       # 処理を実行
       # db.envは公開していないため、まずは空ファイルを作成する。
       - run:
