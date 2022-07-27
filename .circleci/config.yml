@@ -126,7 +126,7 @@ jobs:
           command: echo TZ=<< parameters.tz >> >> db.env
       - run:
           name: Dockerfileに環境変数RAILS_ENVを設定
-          command: echo RAILS_ENV=production >> Dockerfile
+          command: echo ENV RAILS_ENV production >> Dockerfile
       - run:
           name: Dockerコンテナのビルドを実行
           command: docker compose build --no-cache
