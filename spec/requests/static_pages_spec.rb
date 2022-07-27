@@ -3,20 +3,12 @@ require 'rails_helper'
 RSpec.describe "StaticPages", type: :request do
 
   before do
-    @base_title = "Rails 7 Micropost posting App"
+    @base_title = "Micropost App with Rails7"
   end
 
-  describe "should get root" do
+  describe "GET / (home)" do
     it "returns http success" do
-      get root_url
-      expect(response).to have_http_status(:success)
-      assert_select "title", @base_title
-    end
-  end
-
-  describe "GET /home" do
-    it "returns http success" do
-      get static_pages_home_url
+      get root_path
       expect(response).to have_http_status(:success)
       assert_select "title", @base_title
     end
@@ -24,7 +16,7 @@ RSpec.describe "StaticPages", type: :request do
 
   describe "GET /help" do
     it "returns http success" do
-      get static_pages_help_url
+      get help_path
       expect(response).to have_http_status(:success)
       assert_select "title", text: "Help | #{@base_title }"
     end
@@ -32,7 +24,7 @@ RSpec.describe "StaticPages", type: :request do
 
   describe "GET /about" do
     it "returns http success" do
-      get static_pages_about_url
+      get about_path
       expect(response).to have_http_status(:success)
       assert_select "title", text: "About | #{@base_title }"
     end
@@ -40,7 +32,7 @@ RSpec.describe "StaticPages", type: :request do
 
   describe "GET /contact" do
     it "returns http success" do
-      get static_pages_contact_url
+      get contact_path
       expect(response).to have_http_status(:success)
       assert_select "title", text: "Contact | #{@base_title }"
     end
