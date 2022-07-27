@@ -155,9 +155,9 @@ jobs:
       # - run:
       #     name: docker compose run --rm web rails assets:precompile
       #     command: docker compose run --rm web rails assets:precompile
-      # - run:
-      #     name: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
-      #     command: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
+      - run:
+          name: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
+          command: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
       # Herokuコマンドを順次実行
       - run:
           name: heroku container:login
