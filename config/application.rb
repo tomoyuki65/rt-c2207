@@ -23,9 +23,6 @@ module RtC2207
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :local
 
-    # Herokuのアセットパイプライン用
-    config.serve_static_assets = true
-
     # ジェネレータの設定を追加
     config.generators do |g|
       g.test_framework :rspec,
