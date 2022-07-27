@@ -133,6 +133,9 @@ jobs:
       - run:
           name: yarn.lockからyarnを再インストール
           command: docker compose run --rm web yarn install --immutable --immutable-cache --check-cache
+      - run:
+          name: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
+          command: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
       # Herokuコマンドを順次実行
       - run:
           name: heroku container:login
