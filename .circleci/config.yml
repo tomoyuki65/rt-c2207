@@ -56,7 +56,7 @@ jobs:
           command: docker compose build --no-cache
       - run:
           name: yarn.lockからyarnを再インストール
-          command: docker compose run --rm web yarn install --immutable --immutable-cache --check-cache
+          command: docker compose run --rm web yarn install --frozen-lockfile
       - run:
           name: Dockerコンテナの起動
           command: docker compose up -d
@@ -132,7 +132,7 @@ jobs:
           command: docker compose build --no-cache
       - run:
           name: yarn.lockからyarnを再インストール
-          command: docker compose run --rm web yarn install --immutable --immutable-cache --check-cache
+          command: docker compose run --rm web yarn install --frozen-lockfile
       # - run:
       #     name: Dockerコンテナの起動
       #     command: docker compose up -d
@@ -152,12 +152,12 @@ jobs:
       # - run:
       #     name: docker compose run --rm web rails assets:clobber
       #     command: docker compose run --rm web rails assets:clobber
-      - run:
-          name: docker compose run --rm web rails assets:precompile
-          command: docker compose run --rm web rails assets:precompile
-      - run:
-          name: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
-          command: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
+      # - run:
+      #     name: docker compose run --rm web rails assets:precompile
+      #     command: docker compose run --rm web rails assets:precompile
+      # - run:
+      #     name: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
+      #     command: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
       # Herokuコマンドを順次実行
       - run:
           name: heroku container:login
