@@ -124,37 +124,13 @@ jobs:
       - run:
           name: db.envに環境変数TZを設定
           command: echo TZ=<< parameters.tz >> >> db.env
-      # - run:
-      #     name: Dockerfileに環境変数RAILS_ENVを設定
-      #     command: echo ENV RAILS_ENV production >> Dockerfile
       - run:
           name: Dockerコンテナのビルドを実行
           command: docker compose build --no-cache
       - run:
           name: yarn.lockからyarnを再インストール
           command: docker compose run --rm web yarn install --frozen-lockfile
-      # - run:
-      #     name: Dockerコンテナの起動
-      #     command: docker compose up -d
-      # Dockerコンテナ起動後、すぐにDBを作成しようとするとエラーが発生する可能性があるため、少し待機する。
-      # - run:
-      #     name: DB接続前の待機時間 10s
-      #     command: sleep 10
-      # - run:
-      #     name: DBを作成
-      #     command: docker compose exec web rails db:create
-      # - run:
-      #     name: マイグレーションを実行
-      #     command: docker compose exec web rails db:migrate
-      # - run:
-      #     name: 起動中のDockerコンテナを停止して削除
-      #     command: docker compose down
-      # - run:
-      #     name: docker compose run --rm web rails assets:clobber
-      #     command: docker compose run --rm web rails assets:clobber
-      # - run:
-      #     name: docker compose run --rm web rails assets:precompile
-      #     command: docker compose run --rm web rails assets:precompile
+      # 下記はエラーが出たので権限付与するコマンド
       - run:
           name: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
           command: sudo chown -R $USER /home/circleci/deploy_heroku/tmp/db
