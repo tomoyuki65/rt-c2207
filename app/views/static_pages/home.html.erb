@@ -1,6 +1,14 @@
-<h1>Rails 7 Micropost posting App</h1>
-<p>
-  This is the home page
-  for posting microposts made by 
-  <a href="https://github.com/tomoyuki65/rt-c2207">Tomoyuki</a>.
-</p>
+<div class="center bg-light p-4 p-sm-5 my-4 rounded">
+  <h1>Welcome to the Micropost App with Rails7</h1>
+
+  <h2>
+    This is the home page
+    for posting microposts made by 
+    <a href="https://github.com/tomoyuki65/rt-c2207">Tomoyuki</a>.
+  </h2>
+
+  <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+</div>
+
+<%= link_to image_tag("rails.svg", alt: "Rails logo", width: "200px"),
+                      "https://rubyonrails.org/" %>
