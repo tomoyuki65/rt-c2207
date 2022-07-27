@@ -56,7 +56,7 @@ jobs:
           command: docker compose build --no-cache
       - run:
           name: yarn.lockからyarnを再インストール
-          command: docker compose run --rm web npm ci
+          command: docker compose run --rm web yarn install --immutable --immutable-cache --check-cache
       - run:
           name: Dockerコンテナの起動
           command: docker compose up -d
@@ -132,7 +132,7 @@ jobs:
           command: docker compose build --no-cache
       - run:
           name: yarn.lockからyarnを再インストール
-          command: docker compose run --rm web npm ci
+          command: docker compose run --rm web yarn install --immutable --immutable-cache --check-cache
       # Herokuコマンドを順次実行
       - run:
           name: heroku container:login
