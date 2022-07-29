@@ -2,10 +2,13 @@
 FROM ruby:3.1.2
 
 # railsコンソール中で日本語入力するための設定
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
+
+# 本番環境用のRAILS_ENV設定
+ENV RAILS_ENV=production
 
 # bundlerのバージョンを固定するための設定
-ENV BUNDLER_VERSION 2.3.10
+ENV BUNDLER_VERSION=2.3.10
 
 # インストール可能なパッケージ一覧の更新
 RUN apt-get update -qq \
