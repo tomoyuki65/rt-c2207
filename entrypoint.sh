@@ -10,5 +10,10 @@ if [ "$RAILS_ENV" = "production" ]; then
   bundle exec rails assets:precompile
 fi
 
-# サーバー実行（DockerfileのCMDをセット）
-exec "$@"
+# production環境の場合のみpumaコマンドでサーバーを起動
+if [ "$RAILS_ENV" = "production" ]; then
+  bundle exec puma -C config/puma.rb
+else
+  # DockerfileのCMDをセットして実行
+  exec "$@"
+fi
