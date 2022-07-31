@@ -3,6 +3,7 @@ Railsチュートリアルを参考にしつつ、最新技術を盛り込んだ
 
 ## 機能一覧
 ・ユーザー登録機能  
+・ログイン機能  
 
 ## 使用技術
 Ruby "3.1.2"  
@@ -25,17 +26,20 @@ Heroku
 ```
 $ docker compose build --no-cache
 ```
-  
+
+<br>
 ②起動用のコマンド  
 ```
 $ docker compose up -d
 ```
-  
+
+<br>
 ③db作成用のコマンド  
 ```
 $ docker compose exec web rails db:create
 ```
-  
+
+<br>
 ④マイグレーション用のコマンド  
 ```
 $ docker compose exec web rails db:migrate
