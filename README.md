@@ -25,18 +25,18 @@ Heroku
 ①ビルド用のコマンド  
 ```
 $ docker compose build --no-cache
-```
-＆nbsp;
+```  
+<br>
 ②起動用のコマンド  
 ```
 $ docker compose up -d
-```
-＆nbsp;
+```  
+<br>
 ③db作成用のコマンド  
 ```
 $ docker compose exec web rails db:create
-```
-＆nbsp;
+```  
+<br>
 ④マイグレーション用のコマンド  
 ```
 $ docker compose exec web rails db:migrate
