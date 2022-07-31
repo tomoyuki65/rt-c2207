@@ -45,5 +45,12 @@ RSpec.describe "UsersSignups", type: :system do
       user_id = User.find_by(email: user.email)
       expect(page).to have_current_path user_path(user_id)
     }.to change(User, :count).by(1)
+
+    # ログイン状態の確認
+    expect(page).to have_no_link "Log in"
+    expect(page).to have_link "Account"
+    expect(page).to have_link "Profile"
+    expect(page).to have_link "Settings"
+    expect(page).to have_button "Log out"
   end
 end
