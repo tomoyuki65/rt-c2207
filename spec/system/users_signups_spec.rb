@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "UsersSignups", type: :system do
+  let(:user) { FactoryBot.build(:user) }
 
   scenario "invalid signup infomation" do
     visit signup_path
@@ -24,9 +25,6 @@ RSpec.describe "UsersSignups", type: :system do
   end
 
   scenario "valid signup infomation" do
-
-    user = FactoryBot.build(:user)
-
     visit signup_path
     expect(page).to have_current_path "/signup"
 

@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "UsersLogins", type: :system do
-
-  before do
-    @user = FactoryBot.create(:user)
-  end
+  let(:user) { FactoryBot.create(:user) }
   
   scenario "login with invalid information" do
     visit login_path
@@ -26,7 +23,7 @@ RSpec.describe "UsersLogins", type: :system do
     
     # メールアドレスは正しいが、パスワードが間違っている場合
     visit login_path
-    fill_in "Email",    with: @user.email
+    fill_in "Email",    with: user.email
     fill_in "Password", with: "invalid"
     click_button "Log in"
 
@@ -38,11 +35,11 @@ RSpec.describe "UsersLogins", type: :system do
 
   scenario "login with valid information followed by logout" do
     visit login_path
-    fill_in "Email",    with: @user.email
-    fill_in "Password", with: @user.password
+    fill_in "Email",    with: user.email
+    fill_in "Password", with: user.password
     click_button "Log in"
 
-    expect(page).to have_current_path user_path(@user.id)
+    expect(page).to have_current_path user_path(user.id)
     expect(page).to have_no_link "Log in"
     expect(page).to have_link "Account"
     expect(page).to have_link "Profile"
