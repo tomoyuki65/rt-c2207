@@ -98,6 +98,20 @@ ul.navbar {
   }
 }
 
+// ドロップダウンメニュー
+ul.dropdown-menu {
+  li {
+    margin-left: 0;
+    a {
+      color: black;
+      text-decoration: none;
+      &:hover {
+        color: black;
+      }
+    }
+  }
+}
+
 /* footer */
 
 footer {
