@@ -67,4 +67,8 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  # テスト用のHelperをinclude
+  config.include RequestSpecHelper, type: :request
+  config.include SystemSpecHelper, type: :system
 end

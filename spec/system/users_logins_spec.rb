@@ -34,10 +34,7 @@ RSpec.describe "UsersLogins", type: :system do
   end
 
   scenario "login with valid information followed by logout" do
-    visit login_path
-    fill_in "Email",    with: user.email
-    fill_in "Password", with: user.password
-    click_button "Log in"
+    log_in_as(user)
 
     expect(page).to have_current_path user_path(user.id)
     expect(page).to have_no_link "Log in"

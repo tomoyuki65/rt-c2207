@@ -188,6 +188,9 @@ aside {
 
 .gravatar_edit {
   margin-top: 15px;
+  a {
+    text-decoration: none;
+  }
 }
 
 /* forms */
@@ -230,4 +233,42 @@ input {
 #session_remember_me {
   width: auto;
   margin-left: 0;
+}
+
+/* Users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-bottom: 1px solid #eeeeee;
+  }
+  a {
+    text-decoration: none;
+  }
+  // deleteボタン
+  form.button_to {
+    display: inline-block;
+    margin-left: -5px;
+  }
+  button {
+    background-color: white;
+    border: none;
+    color: var(--bs-link-color);
+    &:hover {
+      color: var(--bs-link-hover-color);
+    }
+  }
+}
+
+// ページネーション
+ul.pagination {
+  margin-top: 20px;
+}
+
+// flash
+div.alert {
+  margin-top: 10px;
 }
