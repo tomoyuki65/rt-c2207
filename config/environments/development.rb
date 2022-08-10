@@ -37,9 +37,28 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  #config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
+
+  # ローカル環境用のデフォルトURLオプション設定
+  config.action_mailer.raise_delivery_errors = false
+  host = "localhost:3000"
+  config.action_mailer.default_url_options = { host: host, protocol: "http" }
+
+  # 本番環境用のメール送信設定（検証用）
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.delivery_method = :smtp
+  # host = 'rt-c2207.herokuapp.com'
+  # config.action_mailer.default_url_options = { host: host }
+  # ActionMailer::Base.smtp_settings = {
+  #   :port           => 587,
+  #   :address        => 'smtp.gmail.com',
+  #   :user_name      => Rails.application.credentials.gmail[:user_name],
+  #   :password       => Rails.application.credentials.gmail[:password],
+  #   :domain         => 'gmail.com',
+  #   :authentication => :login,
+  # }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
