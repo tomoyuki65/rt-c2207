@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   let(:user) { FactoryBot.create(:user) }
   let(:other_user) { FactoryBot.create(:other_user) }
+  let(:unactivated_user) { FactoryBot.create(:unactivated_user) }
 
   describe "GET /signup" do
     it "returns http success" do
@@ -92,6 +93,18 @@ RSpec.describe "Users", type: :request do
                                                      password_confirmation: "password",
                                                      admin: true } }
       expect(other_user.reload.admin?).to be_falsey
+    end
+  end
+
+  describe "show only valid users" do
+    it "activated user should be displayed" do
+      get user_path(user)
+      expect(response).to have_http_status(:success)
+    end
+
+    it "unactivated user should be redirect root_url" do
+      get user_path(unactivated_user)
+      expect(response).to redirect_to root_url
     end
   end
 end

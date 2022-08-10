@@ -11,13 +11,17 @@ User.create!(name: "Example User",
              email: "example@railstutorial.org",
              password:              "foobar",
              password_confirmation: "foobar",
-             admin: true)
+             admin: true,
+             activated: true,
+             activated_at: Time.zone.now)
 
 # ゲスト用のサンプルユーザーを1人作成する
 User.create!(name: "Guest User",
              email: "guest@example.com",
              password:              "guest2208",
-             password_confirmation: "guest2208")
+             password_confirmation: "guest2208",
+             activated: true,
+             activated_at: Time.zone.now)
 
 # 追加のユーザーをまとめて生成する
 99.times do |n|
@@ -27,5 +31,7 @@ User.create!(name: "Guest User",
   User.create!(name: name,
                email: email,
                password:              password,
-               password_confirmation: password)
+               password_confirmation: password,
+               activated: true,
+               activated_at: Time.zone.now)
 end

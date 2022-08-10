@@ -5,13 +5,20 @@ RSpec.describe "UsersIndexTests", type: :system do
   before do
     @user = FactoryBot.create(:user)
     @non_admin = FactoryBot.create(:other_user)
+    @unactivated_user = FactoryBot.create(:unactivated_user)
 
-    50.times do |n|
+    60.times do |n|
       name  = Faker::Name.name
       email = "example-#{n+1}@railstutorial.org"
       password = "password"
-      FactoryBot.create(:user, name: name, email: email,
-                               password: password, password_confirmation: password)
+      if n <= 50
+        FactoryBot.create(:user, name: name, email: email,
+                                 password: password, password_confirmation: password,
+                                 activated: true, activated_at: Time.zone.now)
+      else
+        FactoryBot.create(:user, name: name, email: email,
+          password: password, password_confirmation: password)
+      end
     end
   end
 
@@ -21,7 +28,8 @@ RSpec.describe "UsersIndexTests", type: :system do
     expect(page).to have_current_path users_path
     expect(page).to have_css ".pagination"
     expect(page.all(".pagination").count).to eq 2
-    User.paginate(page: 1).each do |user|
+    first_page_or_users = User.where(activated: true).paginate(page: 1).order("id")
+    first_page_or_users.each do |user|
       expect(page).to have_link user.name
     end
   end
@@ -32,7 +40,7 @@ RSpec.describe "UsersIndexTests", type: :system do
     expect(page).to have_current_path user_path(@user)
     click_link "Users"
     expect(page).to have_current_path users_path
-    first_page_or_users = User.paginate(page: 1).order("id")
+    first_page_or_users = User.where(activated: true).paginate(page: 1).order("id")
     first_page_or_users.each do |user|
       expect(page).to have_link user.name
       unless user == @user
