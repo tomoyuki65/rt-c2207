@@ -32,7 +32,7 @@ RSpec.describe "UsersIndexTests", type: :system do
     expect(page).to have_current_path user_path(@user)
     click_link "Users"
     expect(page).to have_current_path users_path
-    first_page_or_users = User.paginate(page: 1)
+    first_page_or_users = User.paginate(page: 1).order("id")
     first_page_or_users.each do |user|
       expect(page).to have_link user.name
       unless user == @user
