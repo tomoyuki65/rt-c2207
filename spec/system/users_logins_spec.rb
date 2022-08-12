@@ -74,7 +74,7 @@ RSpec.describe "UsersLogins", type: :system do
 
     # メールからURLを抽出
     body = mail.body.encoded
-    url = body[/http[^"]+\/password_resets\/[\w-]+\/edit\?email=[a-zA-Z0-9_+-]+\%40([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}/]
+    url = body[/http[^"]+\/password_resets\/[\w+-]+\/edit\?email=[\w+-]+\%40([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}/]
     
     visit url
     expect(page).to have_current_path url
