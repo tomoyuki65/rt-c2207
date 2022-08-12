@@ -30,5 +30,8 @@ module RtC2207
         view_specs: false,
         routing_specs: false
     end
+
+    # Active Storageのバリアントプロセッサにmini_magickを設定
+    config.active_storage.variant_processor = :mini_magick
   end
 end

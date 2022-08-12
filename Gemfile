@@ -58,6 +58,16 @@ gem "faker"
 gem "will_paginate"
 gem 'will_paginate-bootstrap-style'
 
+# Active Storageバリデーション用
+gem "active_storage_validations"
+
+# 画像処理用
+gem "image_processing"
+gem "mini_magick"
+
+# GCS用
+gem "google-cloud-storage"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

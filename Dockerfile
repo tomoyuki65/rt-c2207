@@ -15,14 +15,12 @@ RUN apt-get update -qq \
     # パッケージのインストール（-yは全部yesにするオプション）
     # コンパイラに必要なパッケージ、PostgreSQLのクライアント
     # PostgreSQLの接続に必要なパッケージをインストール
-    # imagemagickはRialsチュートリアルで必要
     # chromium-driverはRSpecのシステムスペック用に必要
     # credentials.yml.encの編集用にvimが必要
     # Bootstrapを利用する場合はnodejsとnpmとyarnが必要
     && apt-get install build-essential \
                        postgresql-client \
                        libpq-dev \
-                       imagemagick \
                        chromium-driver \
                     -y vim-gtk \
                     -y nodejs \

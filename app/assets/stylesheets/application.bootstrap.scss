@@ -18,8 +18,8 @@ $gray-darker: #222;
 
 body {
   // Bootstrap5の場合、最上部がナビゲーションバーと重なるため、
-  // padding-topに4.5remを追加
-  padding-top: 4.5rem;
+  // padding-topに5remを追加
+  padding-top: 5rem;
 }
 
 section {
@@ -257,10 +257,77 @@ input {
 
 // ページネーション
 ul.pagination {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 // flash
 div.alert {
   margin-top: 10px;
+}
+
+/* microposts */
+
+.microposts {
+  list-style: none;
+  padding: 0;
+  li {
+    padding: 10px 0;
+    border-top: 1px solid #e8e8e8;
+  }
+  .user {
+    margin-top: 5em;
+    padding-top: 0;
+  }
+  .content {
+    display: block;
+    margin-left: 60px;
+    img {
+      display: block;
+      padding: 5px 0;
+    }
+  }
+  .timestamp {
+    color: $gray-light;
+    display: block;
+    margin-left: 60px;
+    // deleteボタン
+    form.button_to {
+      display: inline-block;
+      margin-left: -5px;
+    }
+    button {
+      background-color: white;
+      border: none;
+      color: var(--bs-link-color);
+      &:hover {
+        color: var(--bs-link-hover-color);
+      }
+    }
+  }
+  .gravatar {
+    float: left;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+}
+
+aside {
+  textarea {
+    height: 100px;
+    margin-bottom: 5px;
+  }
+}
+
+span.image {
+  margin-top: 10px;
+  input {
+    border: 0;
+  }
+}
+
+.col-md-8 {
+  margin-top: 1.3rem;
+  h3 {
+    font-size: 1.4em;
+  }
 }
