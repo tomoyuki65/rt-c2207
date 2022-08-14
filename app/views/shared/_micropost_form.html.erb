@@ -12,24 +12,31 @@
 <script type="text/javascript">
 // 画像ファイルのサイズチェック
 // 画像ファイルのサイズは1MB以下とする
-const limit = 1024 * 1024 * 1;
+var filesizelimit = 1024 * 1024 * 1;
+
 // input要素を指定
-const inputfile = document.getElementById("micropost_image");
+var inputfile = document.getElementById("micropost_image");
+
 // changeイベントで呼び出す関数
-const handleFileSelect = () => {
-  const files = inputfile.files;
-  for (let i = 0; i < files.length; i++) {
+var handleFileSelect = () => {
+  var inputfilesize = inputfile.files;
+  for (let i = 0; i < inputfilesize.length; i++) {
+
     // 画像ファイルサイズが制限を超える場合
-    if (files[i].size > limit) {
+    if (inputfilesize[i].size > filesizelimit) {
+
       // エラーメッセージを表示
       alert('ファイルサイズは1MB以下にしてください');
+
       // inputの中身をリセット
       inputfile.value = '';
+
       // 処理を終了
       return;
     }
   }
 }
+
 // ファイル選択時にhandleFileSelectを実行
 inputfile.addEventListener("change", handleFileSelect);
 </script>
