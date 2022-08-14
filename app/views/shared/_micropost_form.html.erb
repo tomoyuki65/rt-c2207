@@ -5,7 +5,7 @@
   </div>
   <%= f.submit "Post", class: "btn btn-primary" %>
   <span class="image">
-    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png", id: "input-file" %>
+    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
   </span>
 <% end %>
 
@@ -14,7 +14,7 @@
 // 画像ファイルのサイズは1MB以下とする
 const limit = 1024 * 1024 * 1;
 // input要素を指定
-const inputfile = document.getElementById("input-file");
+const inputfile = document.getElementById("micropost_image");
 // changeイベントで呼び出す関数
 const handleFileSelect = () => {
   const files = inputfile.files;
