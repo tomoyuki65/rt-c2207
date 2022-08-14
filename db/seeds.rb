@@ -18,8 +18,8 @@ User.create!(name: "Example User",
 # ゲスト用のサンプルユーザーを1人作成する
 User.create!(name: "Guest User",
              email: "guest@example.com",
-             password:              "guest-pass",
-             password_confirmation: "guest-pass",
+             password:              "guestpass",
+             password_confirmation: "guestpass",
              activated: true,
              activated_at: Time.zone.now)
 
@@ -27,7 +27,7 @@ User.create!(name: "Guest User",
 99.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
-  password = "password"
+  password = "other2208"
   User.create!(name: name,
                email: email,
                password:              password,
