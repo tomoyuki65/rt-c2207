@@ -5,36 +5,31 @@
   </div>
   <%= f.submit "Post", class: "btn btn-primary" %>
   <span class="image">
-    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png" %>
+    <%= f.file_field :image, accept: "image/jpeg,image/gif,image/png", id: "input-file" %>
   </span>
 <% end %>
 
 <script type="text/javascript">
 // 画像ファイルのサイズチェック
 // 画像ファイルのサイズは1MB以下とする
-const sizeLimit = 1024 * 1024 * 1;
-
+const limit = 1024 * 1024 * 1;
 // input要素を指定
-const fileInput = document.getElementById('micropost_image');
-
+const inputfile = document.getElementById("input-file");
 // changeイベントで呼び出す関数
 const handleFileSelect = () => {
-  const files = fileInput.files;
+  const files = inputfile.files;
   for (let i = 0; i < files.length; i++) {
     // 画像ファイルサイズが制限を超える場合
-    if (files[i].size > sizeLimit) {
+    if (files[i].size > limit) {
       // エラーメッセージを表示
       alert('ファイルサイズは1MB以下にしてください');
-
       // inputの中身をリセット
-      fileInput.value = '';
-
+      inputfile.value = '';
       // 処理を終了
       return;
     }
   }
 }
-
 // ファイル選択時にhandleFileSelectを実行
-fileInput.addEventListener('change', handleFileSelect);
+inputfile.addEventListener("change", handleFileSelect);
 </script>
