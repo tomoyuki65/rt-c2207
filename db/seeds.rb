@@ -18,8 +18,8 @@ User.create!(name: "Example User",
 # ゲスト用のサンプルユーザーを1人作成する
 User.create!(name: "Guest User",
              email: "guest@example.com",
-             password:              "guest2208",
-             password_confirmation: "guest2208",
+             password:              "guest-pass",
+             password_confirmation: "guest-pass",
              activated: true,
              activated_at: Time.zone.now)
 
@@ -27,7 +27,7 @@ User.create!(name: "Guest User",
 99.times do |n|
   name  = Faker::Name.name
   email = "example-#{n+1}@railstutorial.org"
-  password = "pw202208"
+  password = "password"
   User.create!(name: name,
                email: email,
                password:              password,
@@ -42,3 +42,11 @@ users = User.order(:created_at).take(6)
   content = Faker::Lorem.sentence(word_count: 5)
   users.each { |user| user.microposts.create!(content: content) }
 end
+
+# リレーションシップを作成
+users = User.all.order(:id)
+user  = users.first
+following = users[2..50]
+followers = users[3..40]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }

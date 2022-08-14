@@ -9,6 +9,8 @@ Railsチュートリアルを参考にしつつ、最新技術を盛り込んだ
 ・パスワード再設定機能（メール送信機能）  
 ・マイクロポスト投稿・表示・削除機能  
 ・マイクロポストの画像投稿機能（GCSを利用）  
+・ユーザーのフォロー機能  
+・ステータスフィード表示機能  
 
 ## 使用技術
 Ruby "3.1.2"  
@@ -19,6 +21,7 @@ RSpec
 CircleCI  
 Heroku  
 Google Cloud Storage  
+Hotwire(Turbo)  
 
 ## 注意点
 このアプリの起動には以下が必要です。  
@@ -58,3 +61,7 @@ $ docker compose exec web rails db:migrate
 RAILS_ENV=production  
 RAILS_MASTER_KEY=master.key  
 RAILS_SERVE_STATIC_FILES=true（アセットパイプライン用）  
+
+## 参考記事
+技術ブログも作成していますので、興味がある方は下記の記事を参考にしてみて下さい。  
+[・Railsチュートリアル（第6版）を進めるための参考資料](https://tomoyuki65.com/rails-tutorial-6-reference-material/)  

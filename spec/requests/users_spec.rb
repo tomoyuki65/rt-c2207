@@ -49,6 +49,16 @@ RSpec.describe "Users", type: :request do
       expect(flash).to be_any
       expect(flash[:danger]).to eq "Please log in."
     end
+
+    it "following" do
+      get following_user_path(user)
+      expect(response).to redirect_to login_url
+    end
+
+    it "followers" do
+      get followers_user_path(user)
+      expect(response).to redirect_to login_url
+    end
   end
 
   describe "should redirect logged in as wrong user" do
