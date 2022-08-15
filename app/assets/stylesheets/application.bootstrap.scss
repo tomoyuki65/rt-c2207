@@ -370,3 +370,47 @@ span.image {
     font-size: 1.4em;
   }
 }
+
+/* not_logged_in */
+.not_logged_in_margin {
+  margin-bottom: 50px;
+}
+
+.not_logged_in {
+  text-align: center;
+  .sign_up {
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 1.8em;
+  }
+  .log_in {
+    font-weight: bold;
+    .guest-id-pass {
+      margin-top: 40px;
+      font-size: 0.8em;
+      color: red;
+      .id-pass {
+        display: inline-block;
+        text-align: left;
+        margin-top: -10px;
+      }
+    }
+  }
+}
+
+/* home-micropost */
+
+.home-micropost {
+  margin-bottom: 50px;
+  text-align: center;
+  #micropost {
+    margin-top: 5px;
+    display: inline-block;
+    text-align: left;
+    li {
+      &:last-child {
+        border-bottom: 1px solid #e8e8e8;
+      }
+    }
+  }
+}

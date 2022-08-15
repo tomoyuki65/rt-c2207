@@ -13,6 +13,9 @@
         <%= content_tag(:div, message, class: "alert alert-#{message_type}") %>
       <% end %>
       <%= yield %>
+      <% unless logged_in? %>
+        <%= render "layouts/not_logged_in" %>
+      <% end %>
       <%= render "layouts/footer" %>
       <%= debug(params.to_yaml) if Rails.env.development? %>
     </div>

@@ -1,0 +1,25 @@
+<div class="not_logged_in_margin"></div>
+<div class="not_logged_in bg-light p-4 p-sm-5 my-4 rounded">
+  <div class="sign_up">
+    <p>Micropost App with Rails7 を始めよう</p>
+    <%= link_to "メールアドレスで登録", signup_path, class: "btn btn-lg btn-primary" %>
+  </div>
+  <div class="log_in">
+    <p>アカウントをお持ちの場合</p>
+    <%= link_to "ログイン", login_path, class: "btn btn-lg btn-outline-secondary" %>
+    <div class="guest-id-pass">
+      <p>▼ ゲストユーザー用のログインIDとパスワードはこちら ▼</p>
+      <% if Rails.env.production? %>
+        <div class="id-pass">
+          ログインID：guest@example.com<br>
+          パスワード：guest08
+        </div>
+      <% else %>
+        <div class="id-pass">
+          ログインID：guest@example.com<br>
+          パスワード：guestpass
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
