@@ -64,4 +64,5 @@ RAILS_SERVE_STATIC_FILES=true（アセットパイプライン用）
 
 ## 参考記事
 技術ブログも作成していますので、興味がある方は下記の記事を参考にしてみて下さい。  
+[・Railsチュートリアルをカスタマイズしてポートフォリオを作成する方法【Docker・Rails7・CircleCI対応】](https://tomoyuki65.com/how-to-customize-a-rails-tutorial-to-create-a-portfolio/)  
 [・Railsチュートリアル（第6版）を進めるための参考資料](https://tomoyuki65.com/rails-tutorial-6-reference-material/)  
