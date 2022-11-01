@@ -92,6 +92,6 @@ test:
 production:
   <<: *default
   url: <%= ENV["DATABASE_URL"] %>
-  #database: rt_c2207_production
-  #username: rt_c2207
+  # database: rt_c2207_production
+  # username: rt_c2207
   # password: <%= ENV["RT_C2207_DATABASE_PASSWORD"] %>
