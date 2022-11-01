@@ -48,6 +48,9 @@ RUN bundle -v
 RUN bundle install
 COPY . /rt-c2207
 
+# yarn.lockからインストール
+RUN yarn install --frozen-lockfile
+
 # コンテナ起動時に実行するスクリプト
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
