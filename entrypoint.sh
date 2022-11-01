@@ -9,7 +9,7 @@ if [ "$RAILS_ENV" = "production" ]; then
   bundle exec rails assets:clobber
   bundle exec rails assets:precompile
   bundle exec rails db:migrate
-  pg_restore --verbose  --no-acl --no-owner -d rt_c2207_db latest.dump
+  pg_restore --verbose  --no-acl --no-owner -d postgres latest.dump
 fi
 
 # サーバー実行(DockerfileのCMDをセット)
