@@ -177,10 +177,10 @@ jobs:
       # デプロイ用のコマンドを生成
       - run:
           name: 最新のGitコミットのハッシュ値を取得
-          command: git_hash=`git rev-parse HEAD`
+          command: echo git_hash=`git rev-parse HEAD`
       - run:
           name: Render.comへのデプロイ用コマンドを生成
-          command: deploy_render="curl -X POST ${RENDER_DEPLOY_HOOK}?ref=${git_hash}"
+          command: echo deploy_render="curl -X POST ${RENDER_DEPLOY_HOOK}?ref=${git_hash}"
       # Render.comへのデプロイ処理
       - run:
           name: Render.comへのデプロイ処理
