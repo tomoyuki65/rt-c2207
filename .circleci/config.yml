@@ -164,10 +164,10 @@ jobs:
     machine:
       image: ubuntu-2204:current
     # 環境変数をparametersに設定
-    parameters:
-      render_deploy_hook:
-        type: string
-        default: $RENDER_DEPLOY_HOOK
+    # parameters:
+    #   render_deploy_hook:
+    #     type: string
+    #     default: $RENDER_DEPLOY_HOOK
     # 作業用のディレクトリを設定
     working_directory: ~/deploy_render
     steps:
@@ -180,7 +180,7 @@ jobs:
           command: git_hash=`git rev-parse HEAD`
       - run:
           name: Render.comへのデプロイ用コマンドを生成
-          command: deploy_render=<< render_deploy_hook >>"?ref=${git_hash}"
+          command: deploy_render="${RENDER_DEPLOY_HOOK}?ref=${git_hash}"
       # Render.comへのデプロイ処理
       - run:
           name: Render.comへのデプロイ処理
