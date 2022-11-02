@@ -175,17 +175,16 @@ jobs:
       - checkout
       # 処理を実行
       # デプロイ用のコマンドを生成
-      - run:
-          name: 最新のGitコミットのハッシュ値を取得
-          command: echo git_hash=`git rev-parse HEAD`
+      # - run:
+      #     name: 最新のGitコミットのハッシュ値を取得
+      #     command: echo git_hash=`git rev-parse HEAD`
       # - run:
       #     name: Render.comへのデプロイ用コマンドを生成
       #     command: echo deploy_render="curl -X POST ${RENDER_DEPLOY_HOOK}?ref=${git_hash}"
       # Render.comへのデプロイ処理
       - run:
           name: Render.comへのデプロイ処理
-          #command: eval $deploy_render
-          command: curl -f -X POST ${RENDER_DEPLOY_HOOK}?ref=${git_hash}
+          command: curl -f $RENDER_DEPLOY_HOOK
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
