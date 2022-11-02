@@ -20,7 +20,7 @@ docker-compose
 RSpec  
 PostgreSQL
 CircleCI  
-~~Heroku~~ （無料プラン廃止のため、Render.comへ移行）
+~~Heroku~~ （無料プラン廃止のため、Render.comへ移行）  
 Render  
 Google Cloud Storage  
 Hotwire(Turbo)  
