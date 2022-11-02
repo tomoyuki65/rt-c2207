@@ -8,11 +8,7 @@ rm -f /rt-c2207/tmp/pids/server.pid
 if [ "$RAILS_ENV" = "production" ]; then
   bundle exec rails assets:clobber
   bundle exec rails assets:precompile
-  #bundle exec rails db:migrate
-  #PGPASSWORD=ylP06SrMY5aoeDaHd8R6wHMAMMulcqJe psql -h dpg-cdge4sta4994kr1roeh0-a.singapore-postgres.render.com -U rt_c2207 rt_c2207_production
-  #pg_restore --verbose --no-acl --no-owner -d rt_c2207_production latest.dump
-  #bundle exec rails db:drop
-  PGPASSWORD=ZBQtx8WOfec3dEZwn6GDplKEB3x57Y5v pg_restore --verbose --no-acl --no-owner -h dpg-cdgm2o2en0hj5eagr7f0-a.singapore-postgres.render.com -U rt_c2207 -d rt_c2207_production_4ory latest.dump
+  bundle exec rails db:migrate
 fi
 
 # サーバー実行(DockerfileのCMDをセット)
