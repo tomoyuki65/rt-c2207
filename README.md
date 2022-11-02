@@ -18,7 +18,7 @@ Ruby on Rails "7.0.3"
 Docker  
 docker-compose  
 RSpec  
-PostgreSQL
+PostgreSQL  
 CircleCI  
 ~~Heroku~~ （無料プラン廃止のため、Render.comへ移行）  
 Render  
