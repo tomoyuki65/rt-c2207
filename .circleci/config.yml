@@ -180,7 +180,7 @@ jobs:
           command: git_hash=`git rev-parse HEAD`
       - run:
           name: Render.comへのデプロイ用コマンドを生成
-          command: deploy_render="<< render_deploy_hook >>?ref=${git_hash}"
+          command: deploy_render=<< render_deploy_hook >>"?ref=${git_hash}"
       # Render.comへのデプロイ処理
       - run:
           name: Render.comへのデプロイ処理
