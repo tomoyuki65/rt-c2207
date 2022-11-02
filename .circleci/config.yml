@@ -157,13 +157,44 @@ jobs:
           name: heroku maintenance:off
           command: heroku maintenance:off -a << parameters.heroku_app_name >>
 
+# Render.comへのデプロイ用のジョブ
+  deploy_render:
+    # docker compose　を利用するため、仮想マシンを利用する。（最新版のimageは下記URLを参照）
+    # See: https://circleci.com/docs/ja/configuration-reference#available-linux-machine-images
+    machine:
+      image: ubuntu-2204:current
+    # 環境変数をparametersに設定
+    # parameters:
+    #   render_deploy_hook:
+    #     type: string
+    #     default: $RENDER_DEPLOY_HOOK
+    # 作業用のディレクトリを設定
+    working_directory: ~/deploy_render
+    steps:
+      # リポジトリを作業用のディレクトリにpull
+      - checkout
+      # 処理を実行
+      # デプロイ用のコマンドを生成
+      - run:
+          name: 最新のGitコミットのハッシュ値を取得
+          command: git_hash=`git rev-parse HEAD`
+      - run:
+          name: Render.comへのデプロイ用コマンドを生成
+          command: deploy_render="${RENDER_DEPLOY_HOOK}?ref=${git_hash}"
+      # Render.comへのデプロイ処理
+      - run:
+          name: Render.comへのデプロイ処理
+          command: curl $deploy_render
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   test-and-deploy-wf:
     jobs:
       - test
-      - deploy:
+      # デプロイ先をRender.comに修正
+      #- deploy
+      - deploy_render:
           requires:
             - test
           filters:
