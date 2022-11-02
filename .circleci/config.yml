@@ -183,8 +183,11 @@ jobs:
           command: deploy_render="${RENDER_DEPLOY_HOOK}?ref=${git_hash}"
       # Render.comへのデプロイ処理
       - run:
+          name: echo $deploy_render
+          command: echo $deploy_render
+      - run:
           name: Render.comへのデプロイ処理
-          command: curl $deploy_render
+          command: curl -X POST $deploy_render
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
