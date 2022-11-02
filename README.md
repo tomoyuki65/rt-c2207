@@ -18,8 +18,10 @@ Ruby on Rails "7.0.3"
 Docker  
 docker-compose  
 RSpec  
+PostgreSQL
 CircleCI  
-Heroku  
+~~Heroku~~ （無料プラン廃止のため、Render.comへ移行）
+Render  
 Google Cloud Storage  
 Hotwire(Turbo)  
 
@@ -58,9 +60,19 @@ $ docker compose exec web rails db:migrate
 ```
 
 ## 環境変数
+①Render.comの環境変数  
 RAILS_ENV=production  
 RAILS_MASTER_KEY=master.key  
 RAILS_SERVE_STATIC_FILES=true（アセットパイプライン用）  
+TZ=Asia/Tokyo  
+DATABASE_URL=Render.comで作成したDB（PostgreSQL）の内部データベースURL  
+
+<br/>
+
+②CircleCIの環境変数  
+RAILS_MASTER_KEY=master.key  
+TZ=Asia/Tokyo  
+RENDER_DEPLOY_HOOK=Render.comで作成した対象WebサービスのDeploy HookのAPIアドレス  
 
 ## 参考記事
 技術ブログも作成していますので、興味がある方は下記の記事を参考にしてみて下さい。  
